@@ -1,0 +1,112 @@
+
+import React, { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useCustomerAuth } from '../hooks/useCustomerAuth';
+import { Logo, SpinnerIcon } from '../components/icons';
+import Button from '../components/ui/Button';
+import Input from '../components/ui/Input';
+
+const CustomerSignupPage: React.FC = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { signup } = useCustomerAuth();
+
+  const from = location.state?.from?.pathname || "/";
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+    try {
+      await signup(name, email, password, phone);
+      navigate(from, { replace: true }); // Navigate directly into the app
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not sign up.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-[70vh] bg-slate-50 py-12">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md mx-4">
+        <div className="text-center">
+            <Link to="/" className="inline-block">
+                <Logo className="w-16 h-16 mx-auto text-brand-primary" />
+            </Link>
+          <h2 className="mt-6 text-2xl font-bold text-slate-900">
+            Create an Account
+          </h2>
+          <p className="mt-2 text-sm text-slate-600">
+            Join EasyOrganic for a seamless shopping experience.
+          </p>
+        </div>
+
+        <form className="space-y-4" onSubmit={handleSubmit}>
+            <Input
+            id="name"
+            label="Full Name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            />
+        <Input
+            id="email"
+            label="Email address"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            />
+            <Input
+            id="phone"
+            label="Phone Number"
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+            />
+        <Input
+            id="password"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+        />
+
+        {error && <p className="text-sm text-red-600">{error}</p>}
+
+        <div>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? (
+                <div className='flex items-center justify-center gap-2'>
+                    <SpinnerIcon className="h-5 w-5"/>
+                    <span>Creating Account...</span>
+                </div>
+            ) : (
+                'Sign up'
+            )}
+            </Button>
+        </div>
+        <p className="text-sm text-center text-slate-600">
+            Already have an account?{' '}
+            <Link to="/login" className="font-medium text-brand-primary hover:underline">
+            Sign in
+            </Link>
+        </p>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default CustomerSignupPage;
