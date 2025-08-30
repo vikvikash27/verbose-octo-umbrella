@@ -22,3 +22,41 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.env
+.env.*            # Environment-specific files
+.DS_Store
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+terraform.tfvars  # Contains sensitive or environment-specific values
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.tfstate.lock.info
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+Dockerfile*      # Only ignore if you have service-specific Dockerfiles not in version control
+
+# Plan files (optional)
+*.plan
+tfplan
