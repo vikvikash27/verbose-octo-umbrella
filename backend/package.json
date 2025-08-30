@@ -4,7 +4,8 @@
   "description": "Backend server for the EasyOrganic Admin Dashboard",
   "main": "server.js",
   "scripts": {
-    "start": "npm install && node server.js"
+    "start": "npm install && node server.js",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
