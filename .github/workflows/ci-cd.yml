@@ -58,6 +58,9 @@ jobs:
     name: Build, SonarQube & Trivy Scans
     needs: infra
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
 
     steps:
       - uses: actions/checkout@v4
@@ -70,18 +73,15 @@ jobs:
         run: |
           npm install
           npm test
-        working-directory: ./backend
 
       - name: SonarQube Analysis
         uses: sonarsource/sonarqube-scan-action@master
-        working-directory: ./backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
       - name: SonarQube Quality Gate
         uses: sonarsource/sonarqube-quality-gate-action@master
-        working-directory: ./backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -89,4 +89,3 @@ jobs:
 
       - name: Trivy FS Scan
         run: trivy fs --severity HIGH,CRITICAL --exit-code 1 .
-        working-directory: ./backend
