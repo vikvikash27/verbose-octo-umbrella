@@ -199,7 +199,10 @@
 //   bulkUploadProducts,
 // };
 
+//////////////////Category updates for public Header////////////////////
+
 const Product = require("../models/Product");
+const Category = require("../models/Category");
 const { getDashboardStats } = require("./dashboardController");
 const logActivity = require("../utils/logActivity");
 
@@ -208,7 +211,21 @@ const logActivity = require("../utils/logActivity");
 // @access  Public
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({}).sort({ createdAt: -1 });
+    const { category: categorySlug } = req.query;
+    let query = {};
+
+    if (categorySlug) {
+      const category = await Category.findOne({ slug: categorySlug });
+      if (category) {
+        // Products store category by name
+        query.category = category.name;
+      } else {
+        // Category not found, return no products
+        return res.json([]);
+      }
+    }
+
+    const products = await Product.find(query).sort({ createdAt: -1 });
     res.json(products);
   } catch (error) {
     console.error(`Error in getProducts: ${error.message}`);
@@ -397,10 +414,12 @@ const bulkUploadProducts = async (req, res) => {
 
   try {
     const operations = productsData.map((productInfo) => {
+      // Use product name as the unique key for upserting
       const filter = { name: productInfo.name };
       const update = {
         $set: {
           ...productInfo,
+          // Ensure imageUrl has a default if not provided
           imageUrl:
             productInfo.imageUrl ||
             `https://picsum.photos/seed/${productInfo.name.replace(
