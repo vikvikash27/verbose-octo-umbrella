@@ -17,7 +17,22 @@ variable "private_subnets" {
 variable "environment" { default = "dev" }
 variable "cluster_name" { default = "my-eks-cluster" }
 variable "cluster_version" { default = "1.32" }
-variable "node_instance_types" { type = list(string), default = ["t3.medium"] }
-variable "node_min_size" { type = number, default = 1 }
-variable "node_max_size" { type = number, default = 3 }
-variable "node_desired_size" { type = number, default = 2 }
+variable "node_instance_types" {
+  type    = list(string)
+  default = ["t3.medium"]
+}
+
+variable "node_min_size" {
+  type    = number
+  default = 1
+}
+
+variable "node_max_size" {
+  type    = number
+  default = 3
+}
+
+variable "node_desired_size" {
+  type    = number
+  default = 2
+}
