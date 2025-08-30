@@ -1,6 +1,6 @@
 # terraform.tfvars — Optimized for AWS Free Tier usage
 
-aws_region      = "us-east-1" # Free Tier friendly region
+aws_region      = "ap-northeast-1" # Free Tier friendly region
 vpc_name        = "eks-vpc-dev"
 vpc_cidr        = "10.0.0.0/16"
 public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"] # Two subnets in different AZs
