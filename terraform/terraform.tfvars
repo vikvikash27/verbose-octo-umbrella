@@ -14,3 +14,4 @@ node_instance_types = ["m7i-flex.large"]
 node_min_size       = 1
 node_desired_size   = 1
 node_max_size       = 1
+  
