@@ -1,4 +1,4 @@
-name: CI: Infra + Quality + Security
+name: "CI:Infra + Quality + Security"
 
 on:
   push:
