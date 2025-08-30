@@ -62,10 +62,7 @@ module "eks" {
   }
 }
 
-output "cluster_endpoint" {
-  description = "EKS Cluster endpoint"
-  value       = module.eks.cluster_endpoint
-}
+
 
 output "kubeconfig" {
   description = "Kubeconfig content for EKS cluster"
